@@ -92,8 +92,12 @@ public class ClusterDescriptor {
     Properties properties = new Properties();
     try {
       properties.load(inputStream);
-      conf.setNodes(properties.getProperty("nodes", ClusterConfig.DEFAULT_NODE)
-          .split(","));
+      String[] nodes = properties.getProperty("nodes", ClusterConfig.DEFAULT_NODE)
+          .split(",");
+      for(int i = 0 ; i < nodes.length ; i++){
+        nodes[i] = nodes[i].trim();
+      }
+      conf.setNodes(nodes);
 
       conf.setReplication(Integer
           .parseInt(properties.getProperty("replication",
